@@ -1,0 +1,25 @@
+object dmMain: TdmMain
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  OnDestroy = DataModuleDestroy
+  Height = 252
+  Width = 350
+  object connSuperMarket: TFDConnection
+    Params.Strings = (
+      'User_Name=root'
+      'Database=super_market'
+      'DriverID=MySQL')
+    Connected = True
+    LoginPrompt = False
+    Left = 72
+    Top = 40
+  end
+  object tbClientes: TFDTable
+    Active = True
+    IndexFieldNames = 'id'
+    Connection = connSuperMarket
+    TableName = 'super_market.clientes'
+    Left = 72
+    Top = 112
+  end
+end

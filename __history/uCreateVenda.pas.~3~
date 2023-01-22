@@ -1,0 +1,100 @@
+unit uCreateVenda;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.NumberBox,
+  Vcl.ExtCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
+
+type
+  TfrmCreateVenda = class(TForm)
+    Panel1: TPanel;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    cbCliente: TComboBox;
+    Label2: TLabel;
+    cbProduto: TComboBox;
+    Label3: TLabel;
+    edtQuant: TNumberBox;
+    btnRegistrar: TButton;
+    qryGetClientes: TFDQuery;
+    qryGetProdutos: TFDQuery;
+    qryInsert: TFDQuery;
+    qryGetProduto: TFDQuery;
+    procedure FormCreate(Sender: TObject);
+    procedure btnRegistrarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCreateVenda: TfrmCreateVenda;
+
+implementation
+
+{$R *.dfm}
+
+uses uDataModule;
+
+procedure TfrmCreateVenda.btnRegistrarClick(Sender: TObject);
+var
+  cliente: String;
+  produto: String;
+  quantidade: Integer;
+
+begin
+  cliente := cbCliente.Text;
+  produto := cbProduto.Text;
+  quantidade := edtQuant.ValueInt;
+
+  if cliente.IsEmpty then
+  begin
+    ShowMessage('Escolha uma opção para o campo Cliente');
+    Exit;
+  end;
+
+  if produto.IsEmpty then
+  begin
+    ShowMessage('Escolha uma opção para o campo Produto');
+    Exit;
+  end;
+
+  if quantidade = 0 then
+  begin
+    ShowMessage('A quantidade de produtos deve ser maior que 0');
+    Exit;
+  end;
+end;
+
+procedure TfrmCreateVenda.FormCreate(Sender: TObject);
+begin
+  qryGetClientes.Open;
+  qryGetClientes.First;
+
+  While not qryGetClientes.Eof do
+  begin
+    cbCliente.Items.Add(qryGetClientes.FieldByName('nome').AsString);
+    qryGetClientes.Next;
+  end;
+
+  qryGetClientes.Close;
+
+  qryGetProdutos.Open;
+  qryGetProdutos.First;
+
+  While not qryGetProdutos.Eof do
+  begin
+    cbProduto.Items.Add(qryGetClientes.FieldByName('nome').AsString);
+    qryGetProdutos.Next;
+  end;
+
+  qryGetProdutos.Close;
+end;
+
+end.

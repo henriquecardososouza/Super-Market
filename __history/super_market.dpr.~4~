@@ -1,0 +1,22 @@
+program super_market;
+
+uses
+  Vcl.Forms,
+  uMain in 'uMain.pas' {frmMain},
+  uSplash in 'uSplash.pas' {frmSplash},
+  uLogin in 'uLogin.pas' {frmLogin},
+  uSign in 'uSign.pas' {frmSign},
+  uDataModule in 'uDataModule.pas' {dmMain: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TfrmSplash, frmSplash);
+  Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmSign, frmSign);
+  Application.CreateForm(TdmMain, dmMain);
+  Application.Run;
+end.

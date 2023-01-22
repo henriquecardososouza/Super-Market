@@ -1,0 +1,183 @@
+object frmConsProduto: TfrmConsProduto
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Consultar Produto'
+  ClientHeight = 493
+  ClientWidth = 578
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 578
+    Height = 60
+    Align = alTop
+    Caption = 'Consultar Produtos'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 0
+  end
+  object GroupBox1: TGroupBox
+    Left = 56
+    Top = 115
+    Width = 465
+    Height = 326
+    TabOrder = 1
+    object Label1: TLabel
+      Left = 88
+      Top = 104
+      Width = 35
+      Height = 13
+      Caption = 'Nome:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 88
+      Top = 168
+      Width = 35
+      Height = 13
+      Caption = 'Pre'#231'o:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 88
+      Top = 232
+      Width = 68
+      Height = 13
+      Caption = 'Quantidade:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbNome: TLabel
+      Left = 330
+      Top = 104
+      Width = 3
+      Height = 13
+      Alignment = taRightJustify
+    end
+    object lbPreco: TLabel
+      Left = 330
+      Top = 168
+      Width = 3
+      Height = 13
+      Alignment = taRightJustify
+    end
+    object lbQuant: TLabel
+      Left = 330
+      Top = 232
+      Width = 3
+      Height = 13
+      Alignment = taRightJustify
+    end
+    object cbProdutos: TComboBox
+      Left = 136
+      Top = 28
+      Width = 177
+      Height = 21
+      Style = csDropDownList
+      TabOrder = 0
+      OnChange = cbProdutosChange
+    end
+    object Button1: TButton
+      Left = 376
+      Top = 288
+      Width = 75
+      Height = 25
+      Caption = 'Exportar'
+      TabOrder = 1
+      OnClick = Button1Click
+    end
+  end
+  object qryGetData: TFDQuery
+    Connection = dmMain.connSuperMarket
+    SQL.Strings = (
+      'SELECT nome FROM produtos')
+    Left = 152
+    Top = 72
+  end
+  object qryGetAttributes: TFDQuery
+    Connection = dmMain.connSuperMarket
+    SQL.Strings = (
+      'SELECT * FROM produtos WHERE nome = :nome')
+    Left = 232
+    Top = 72
+    ParamData = <
+      item
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+  end
+  object qryGetID: TFDQuery
+    Connection = dmMain.connSuperMarket
+    SQL.Strings = (
+      'SELECT * FROM usuarios WHERE nome = :nome')
+    Left = 312
+    Top = 72
+    ParamData = <
+      item
+        Name = 'NOME'
+        ParamType = ptInput
+      end>
+  end
+  object qryPermissao: TFDQuery
+    Connection = dmMain.connSuperMarket
+    SQL.Strings = (
+      'SELECT * FROM permissoes WHERE usuario = :usuario')
+    Left = 384
+    Top = 72
+    ParamData = <
+      item
+        Name = 'USUARIO'
+        ParamType = ptInput
+      end>
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = 'csv'
+    FileName = 'Produtos'
+    Options = [ofHideReadOnly, ofExtensionDifferent, ofPathMustExist, ofEnableSizing]
+    Left = 464
+    Top = 75
+  end
+  object ClientDataSet1: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DataSetProvider1'
+    Left = 24
+    Top = 136
+  end
+  object DataSetProvider1: TDataSetProvider
+    DataSet = dmMain.tbClientes
+    Left = 64
+    Top = 72
+  end
+end

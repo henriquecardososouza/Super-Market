@@ -1,0 +1,71 @@
+unit uLogin;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Vcl.StdCtrls, Vcl.Mask,
+  Vcl.DBCtrls, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+
+type
+  TfrmLogin = class(TForm)
+    query1: TFDQuery;
+    Label1: TLabel;
+    Label2: TLabel;
+    btnEntrar: TButton;
+    btnCadastrar: TButton;
+    edtSenha: TEdit;
+    edtNome: TEdit;
+    procedure btnEntrarClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLogin: TfrmLogin;
+
+implementation
+
+{$R *.dfm}
+
+uses uDataModule, uMain;
+
+var
+  frmMain: TfrmMain;
+
+procedure TfrmLogin.btnEntrarClick(Sender: TObject);
+var
+  nome: String;
+  senha: String;
+begin
+  nome := edtNome.Text;
+  senha := edtSenha.Text;
+
+  query1.Sql.Text := 'Select senha FROM cliente WHERE nome = :nome';
+  query1.ParamByName('nome').AsString := nome;
+
+  query1.Open;
+
+  if not (VartoStr(query1.FieldByName('senha').Value) = senha) or (query1.isEmpty) then
+  begin
+    ShowMessage('Usuário ou senha incorretos');
+    exit
+  end;
+
+  Application.CreateForm(TfrmMain, frmMain);
+  frmLogin.Hide;
+  frmLogin.Free;
+
+end;
+
+procedure TfrmLogin.FormDestroy(Sender: TObject);
+begin
+  frmMain.user := 'Henry';
+end;
+
+end.

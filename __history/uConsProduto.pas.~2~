@@ -1,0 +1,71 @@
+unit uConsProduto;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfrmConsProduto = class(TForm)
+    Panel1: TPanel;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    lbNome: TLabel;
+    lbPreco: TLabel;
+    lbQuant: TLabel;
+    cbProdutos: TComboBox;
+    qryGetData: TFDQuery;
+    qryGetAttributes: TFDQuery;
+    procedure FormCreate(Sender: TObject);
+    procedure cbProdutosChange(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsProduto: TfrmConsProduto;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmConsProduto.cbProdutosChange(Sender: TObject);
+var
+nome: String;
+
+begin
+  nome := cbProdutos.Text;
+
+  qryGetAttributes.ParamByName('nome').AsString := nome;
+  qryGetAttributes.Open;
+
+  lbNome.Caption := qryGetAttributes.FieldValues['nome'];
+  lbPreco.Caption := qryGetAttributes.FieldValues['preco'];
+  lbQuant.Caption := qryGetAttributes.FieldValues['estoque'];
+
+  qryGetAttributes.Close;
+end;
+
+procedure TfrmConsProduto.FormCreate(Sender: TObject);
+begin
+  qryGetData.Open;
+  qryGetData.First;
+
+  While not qryGetData.Eof do
+  begin
+    cbProdutos.Items.Add(qryGetData.FieldByName('nome').AsString);
+    qryGetData.Next;
+  end;
+
+  qryGetData.Close;
+end;
+
+end.

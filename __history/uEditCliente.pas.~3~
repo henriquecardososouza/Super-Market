@@ -1,0 +1,63 @@
+unit uEditCliente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Vcl.StdCtrls, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Mask;
+
+type
+  TfrmEditCliente = class(TForm)
+    Panel1: TPanel;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    edtNome: TEdit;
+    edtEmail: TEdit;
+    btnEditar: TButton;
+    edtTelefone: TMaskEdit;
+    qryGetData: TFDQuery;
+    cbClientes: TComboBox;
+    qryGetAttributes: TFDQuery;
+    procedure FormCreate(Sender: TObject);
+    procedure cbClientesChange(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmEditCliente: TfrmEditCliente;
+
+implementation
+
+{$R *.dfm}
+
+uses uDataModule;
+
+procedure TfrmEditCliente.cbClientesChange(Sender: TObject);
+begin
+  ShowMessage(cbClientes.SelText);
+  //qryGetAttributes.ParamByName('nome').AsString := cbClientes.SelText;
+end;
+
+procedure TfrmEditCliente.FormCreate(Sender: TObject);
+begin
+  qryGetData.Open;
+  qryGetData.First;
+
+  While not qryGetData.Eof do
+  begin
+    cbClientes.Items.Add(qryGetData.FieldByName('nome').AsString);
+    qryGetData.Next;
+  end;
+
+  qryGetData.Close;
+end;
+
+end.

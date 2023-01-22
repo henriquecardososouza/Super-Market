@@ -1,0 +1,130 @@
+unit uConfigUser;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
+
+type
+  TfrmConfigUser = class(TForm)
+    Panel1: TPanel;
+    cbUsuarios: TComboBox;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    cbCadCliente: TCheckBox;
+    cbEditCliente: TCheckBox;
+    cbEditProduto: TCheckBox;
+    cbDeleteProduto: TCheckBox;
+    cbCadProduto: TCheckBox;
+    cbExport: TCheckBox;
+    cbDeleteCliente: TCheckBox;
+    cbCreateVenda: TCheckBox;
+    cbConfigUsers: TCheckBox;
+    btnSalvar: TButton;
+    qryGetUsuarios: TFDQuery;
+    qryInsert: TFDQuery;
+    qryGetPermissoes: TFDQuery;
+    qryGetUser: TFDQuery;
+    procedure FormCreate(Sender: TObject);
+    procedure cbUsuariosChange(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConfigUser: TfrmConfigUser;
+
+implementation
+
+{$R *.dfm}
+
+uses uDataModule;
+
+procedure TfrmConfigUser.btnSalvarClick(Sender: TObject);
+begin
+  qryGetUser.ParamByName('nome').AsString := cbUsuarios.Text;
+  qryGetUser.Open;
+
+  qryInsert.ParamByName('cad_cliente').AsBoolean := cbCadCliente.Checked;
+  qryInsert.ParamByName('edit_cliente').AsBoolean := cbEditCliente.Checked;
+  qryInsert.ParamByName('delete_cliente').AsBoolean := cbDeleteCliente.Checked;
+  qryInsert.ParamByName('cad_produto').AsBoolean := cbCadProduto.Checked;
+  qryInsert.ParamByName('edit_produto').AsBoolean := cbEditProduto.Checked;
+  qryInsert.ParamByName('delete_produto').AsBoolean := cbDeleteProduto.Checked;
+  qryInsert.ParamByName('export_data').AsBoolean := cbExport.Checked;
+  qryInsert.ParamByName('config_users').AsBoolean := cbConfigUsers.Checked;
+  qryInsert.ParamByName('realizar_venda').AsBoolean := cbCreateVenda.Checked;
+  qryInsert.ParamByName('usuario').AsInteger := qryGetUser.FieldValues['id'];
+
+  qryGetUser.Close;
+
+  try
+    qryInsert.Execute;
+  except
+  begin
+    ShowMessage('Ocorreu um erro ao editar os dados');
+    Exit;
+  end;
+  end;
+
+  ShowMessage('Dados atualizados com sucesso');
+
+  cbUsuarios.Clear;
+  cbCadCliente.Checked := false;
+  cbEditCliente.Checked := false;
+  cbDeleteCliente.Checked := false;
+  cbCadProduto.Checked := false;
+  cbEditProduto.Checked := false;
+  cbDeleteProduto.Checked := false;
+  cbExport.Checked := false;
+  cbCreateVenda.Checked := false;
+  cbConfigUsers.Checked := false;
+end;
+
+procedure TfrmConfigUser.cbUsuariosChange(Sender: TObject);
+begin
+  qryGetUser.ParamByName('nome').AsString := cbUsuarios.Text;
+  qryGetUser.Open;
+
+  qryGetPermissoes.ParamByName('usuario').AsInteger := qryGetUser.FieldValues['id'];
+  qryGetPermissoes.Open;
+
+  qryGetUser.Close;
+
+  cbCadCliente.Checked := qryGetPermissoes.FieldValues['cad_cliente'];
+  cbEditCliente.Checked := qryGetPermissoes.FieldValues['edit_cliente'];
+  cbDeleteCliente.Checked := qryGetPermissoes.FieldValues['delete_cliente'];
+  cbCadProduto.Checked := qryGetPermissoes.FieldValues['cad_produto'];
+  cbEditProduto.Checked := qryGetPermissoes.FieldValues['edit_produto'];
+  cbDeleteProduto.Checked := qryGetPermissoes.FieldValues['delete_produto'];
+  cbExport.Checked := qryGetPermissoes.FieldValues['export_data'];
+  cbConfigUsers.Checked := qryGetPermissoes.FieldValues['config_users'];
+  cbCreateVenda.Checked := qryGetPermissoes.FieldValues['realizar_venda'];
+
+  qryGetPermissoes.Close;
+end;
+
+procedure TfrmConfigUser.FormCreate(Sender: TObject);
+begin
+  qryGetUsuarios.Open;
+  qryGetUsuarios.First;
+
+  While not qryGetUsuarios.Eof do
+  begin
+    cbUsuarios.Items.Add(qryGetUsuarios.FieldByName('nome').AsString);
+    qryGetUsuarios.Next;
+  end;
+
+  qryGetUsuarios.Close;
+end;
+
+end.

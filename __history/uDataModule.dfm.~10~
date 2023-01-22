@@ -1,0 +1,71 @@
+object dmMain: TdmMain
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  OnDestroy = DataModuleDestroy
+  Height = 252
+  Width = 350
+  object connSuperMarket: TFDConnection
+    Params.Strings = (
+      'User_Name=root'
+      'Database=super_market'
+      'DriverID=MySQL')
+    Connected = True
+    LoginPrompt = False
+    Left = 72
+    Top = 40
+  end
+  object tbClientes: TFDTable
+    Active = True
+    IndexFieldNames = 'id'
+    Connection = connSuperMarket
+    TableName = 'super_market.clientes'
+    Left = 72
+    Top = 112
+    object tbClientesid: TFDAutoIncField
+      FieldName = 'id'
+      Origin = 'id'
+    end
+    object tbClientesnome: TStringField
+      FieldName = 'nome'
+      Origin = 'nome'
+      Required = True
+      Size = 100
+    end
+    object tbClientesemail: TStringField
+      FieldName = 'email'
+      Origin = 'email'
+      Required = True
+      Size = 100
+    end
+    object tbClientestelefone: TStringField
+      FieldName = 'telefone'
+      Origin = 'telefone'
+      Required = True
+      Size = 30
+    end
+  end
+  object tbProdutos: TFDTable
+    Active = True
+    IndexFieldNames = 'id'
+    Connection = connSuperMarket
+    TableName = 'produtos'
+    Left = 152
+    Top = 112
+    object tbProdutosid: TFDAutoIncField
+      FieldName = 'id'
+    end
+    object tbProdutosnome: TStringField
+      FieldName = 'nome'
+      Required = True
+      Size = 200
+    end
+    object tbProdutospreco: TSingleField
+      FieldName = 'preco'
+      Required = True
+    end
+    object tbProdutosestoque: TIntegerField
+      FieldName = 'estoque'
+      Required = True
+    end
+  end
+end

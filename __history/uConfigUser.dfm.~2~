@@ -1,0 +1,157 @@
+object frmConfigUser: TfrmConfigUser
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Configurar Usu'#225'rios'
+  ClientHeight = 511
+  ClientWidth = 593
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 593
+    Height = 60
+    Align = alTop
+    Caption = 'Configurar Usu'#225'rios'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 0
+    ExplicitWidth = 583
+  end
+  object GroupBox1: TGroupBox
+    Left = 64
+    Top = 104
+    Width = 465
+    Height = 361
+    TabOrder = 1
+    object Label1: TLabel
+      Left = 128
+      Top = 40
+      Width = 46
+      Height = 13
+      Caption = 'Usu'#225'rio:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 72
+      Top = 96
+      Width = 68
+      Height = 13
+      Caption = 'Permiss'#245'es:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object cbUsuarios: TComboBox
+      Left = 196
+      Top = 37
+      Width = 145
+      Height = 21
+      Style = csDropDownList
+      TabOrder = 0
+    end
+    object CheckBox1: TCheckBox
+      Left = 72
+      Top = 128
+      Width = 170
+      Height = 17
+      Caption = 'Pode cadastrar novos clientes'
+      TabOrder = 1
+    end
+    object CheckBox2: TCheckBox
+      Left = 72
+      Top = 162
+      Width = 177
+      Height = 17
+      Caption = 'Pode editar o perfil de um cliente'
+      TabOrder = 2
+    end
+    object CheckBox3: TCheckBox
+      Left = 272
+      Top = 128
+      Width = 153
+      Height = 17
+      Caption = 'Pode editar um produto'
+      TabOrder = 3
+    end
+    object CheckBox4: TCheckBox
+      Left = 272
+      Top = 162
+      Width = 153
+      Height = 17
+      Caption = 'Pode excluir um produto'
+      TabOrder = 4
+    end
+    object CheckBox5: TCheckBox
+      Left = 72
+      Top = 240
+      Width = 177
+      Height = 17
+      Caption = 'Pode cadastrar novos produtos'
+      TabOrder = 5
+    end
+    object CheckBox6: TCheckBox
+      Left = 272
+      Top = 200
+      Width = 145
+      Height = 17
+      Caption = 'Pode exportar dados'
+      TabOrder = 6
+    end
+    object CheckBox7: TCheckBox
+      Left = 72
+      Top = 200
+      Width = 170
+      Height = 17
+      Caption = 'Pode excluir um cliente'
+      TabOrder = 7
+    end
+    object CheckBox8: TCheckBox
+      Left = 272
+      Top = 240
+      Width = 153
+      Height = 17
+      Caption = 'Pode registrar novas vendas'
+      TabOrder = 8
+    end
+    object CheckBox9: TCheckBox
+      Left = 72
+      Top = 280
+      Width = 245
+      Height = 17
+      Caption = 'Pode alterar permiss'#245'es de outros usu'#225'rios'
+      TabOrder = 9
+    end
+    object btnSalvar: TButton
+      Left = 376
+      Top = 320
+      Width = 75
+      Height = 25
+      Caption = 'Salvar'
+      TabOrder = 10
+    end
+  end
+end
